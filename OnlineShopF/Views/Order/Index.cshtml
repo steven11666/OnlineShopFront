@@ -1,0 +1,45 @@
+﻿@model List<OnlineShopF.Models.Order>
+
+@{
+    ViewData["Title"] = "我的訂單";
+}
+
+<h2 class="mt-4 mb-4">@ViewData["Title"]</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">目前沒有訂單。</div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var order in Model)
+        {
+            <div class="col">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">訂單編號：#@order.Id</h5>
+                        <p class="card-text mb-1">
+                            <strong>訂購日期：</strong> @order.OrderDate.ToString("yyyy-MM-dd HH:mm")
+                        </p>
+                        <p class="card-text mb-1">
+                            <strong>總金額：</strong> NT$@order.Total.ToString("N0")
+                        </p>
+                        <p class="card-text">
+                            <strong>付款狀態：</strong>
+                            @if (order.IsPaid)
+                            {
+                                <span class="badge bg-success">已付款</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">未付款</span>
+                            }
+                        </p>
+                        <a asp-action="ReviewOrder" asp-route-id="@order.Id" class="btn btn-outline-primary btn-sm">查看明細</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
